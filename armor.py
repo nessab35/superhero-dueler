@@ -1,5 +1,6 @@
 # armor.py
 import random
+
 class Armor:
     def __init__(self, name: str = '', max_block: int = 0):
         '''Instantiate instance properties.

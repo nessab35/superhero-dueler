@@ -1,6 +1,7 @@
 # hero.py
 from ability import Ability
 from armor import Armor
+from weapon import Weapon
 
 class Hero:
 
@@ -31,7 +32,7 @@ class Hero:
         total_damage = 0
         # loop through all hero's abilities
         for ability in self.abilities:
-            # add dmaage of each attack to our running total
+            # add damage of each attack to our running total
             total_damage += ability.attack()
         # returning total damage
         return total_damage
@@ -68,14 +69,15 @@ class Hero:
 
 
     def fight(self, opponent):
-        '''Current Hero will take turns fighting the oppoenent hero passed in'''
+        '''Current Hero will take turns fighting the opponent hero passed in
+        prints the chances of each person winning'''
 
         total_power = self.starting_health + opponent.starting_health
-        hero_chance = self.starting_health / total_power
-        opponent_chance = opponent.starting_health / total_power
+        hero_chance = (self.starting_health / total_power) * 100
+        opponent_chance = (opponent.starting_health / total_power) * 100
 
-        print(f"Your chances of winning: {hero_chance}")
-        print(f"Opponent chance of winning: {opponent_chance}")
+        print(f"Your chances of winning: {hero_chance}%")
+        print(f"Opponent chance of winning: {opponent_chance}%")
 
         if len(self.abilities) == 0 and  len(opponent.abilities) == 0:
             print("Draw")
@@ -95,14 +97,11 @@ class Hero:
             print(f"{opponent.name} won!")
             return
 
+    def add_weapon(self, weapon):
+        '''Add weapon to self.abilites'''
+        self.abilities.append(weapon)
 
-    # TODO: Fight each hero until a victor emerges.
-  # Phases to implement:
-  # 0) check if at least one hero has abilities. If no hero has abilities, print "Draw"
-  # 1) else, start the fighting loop until a hero has won
-  # 2) the hero (self) and their opponent must attack each other and each must take damage from the other's attack
-  # 3) After each attack, check if either the hero (self) or the opponent is alive
-  # 4) if one of them has died, print "HeroName won!" replacing HeroName with the name of the hero, and end the fight loop
+
 
 
 
@@ -185,14 +184,19 @@ if __name__ == "__main__":
     #hero.take_damage(15000)
     #print(hero.is_alive())
 # fight
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Cat Woman")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-    hero1.add_ability(ability1)
-    hero2.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
+    #hero1 = Hero("Wonder Woman")
+    #hero2 = Hero("Cat Woman")
+    #ability1 = Ability("Super Speed", 300)
+    #ability2 = Ability("Super Eyes", 130)
+    #ability3 = Ability("Wizard Wand", 80)
+    #ability4 = Ability("Wizard Beard", 20)
+    #hero1.add_ability(ability1)
+    #hero1.add_ability(ability2)
+    #hero2.add_ability(ability3)
+    #hero2.add_ability(ability4)
+    #hero1.fight(hero2)
+# add_weapon
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Cat Woman", 90)
+    hero.add_weapon(weapon)
+    print(hero.attack())
