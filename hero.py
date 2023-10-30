@@ -1,4 +1,5 @@
 # hero.py
+from random import choice, random
 from ability import Ability
 from armor import Armor
 from weapon import Weapon
@@ -20,11 +21,32 @@ class Hero:
         self.name = name
         self.starting_health = starting_health
         self.current_health = starting_health
+        self.deaths = 0
+        self.kills = 0
+
+    def add_kill(self, num_kills):
+        '''Updates self.kills by num_kills amount'''
+        self.kills += num_kills
+
+
+    def add_death(self, num_death: int):
+        '''Update deaths with num_deaths'''
+        self.deaths += num_death
 
 
     def add_ability(self, ability):
         '''Add ability to abilities list'''
         self.abilities.append(ability)
+
+
+    def add_armor(self, armor):
+        '''Add armor to armors list'''
+        self.armors.append(armor)
+
+
+    def add_weapon(self, weapon):
+        '''Add weapon to self.abilites'''
+        self.abilities.append(weapon)
 
 
     def attack(self):
@@ -38,17 +60,12 @@ class Hero:
         return total_damage
 
 
-    def add_armor(self, armor):
-        '''Add armor to armors list'''
-        self.armors.append(armor)
-
-
     def defend(self):
         '''Calculate the total block amount from all armor blocks.return: total_block:Int'''
         total_block = 0
-        if len(self.armors) > 0 and self.current_health > 0: 
+        if len(self.armors) > 0 and self.current_health > 0:
             for armor in self.armors:
-                total_block += armor.blocks()
+                total_block += armor.block()
         return total_block
 
 
@@ -73,33 +90,35 @@ class Hero:
         prints the chances of each person winning'''
 
         total_power = self.starting_health + opponent.starting_health
-        hero_chance = (self.starting_health / total_power) * 100
-        opponent_chance = (opponent.starting_health / total_power) * 100
+        hero_chance = self.starting_health / total_power
+        opponent_chance = opponent.starting_health / total_power
 
-        print(f"Your chances of winning: {hero_chance}%")
-        print(f"Opponent chance of winning: {opponent_chance}%")
-
-        if len(self.abilities) == 0 and  len(opponent.abilities) == 0:
+        if len(self.abilities) == 0 and len(opponent.abilities) == 0:
             print("Draw")
-            return
+        else:
+            while self.is_alive() and opponent.is_alive():
+                if random() <= hero_chance:
+                    opponent.take_damage(self.attack())
+                else:
+                    self.take_damage(opponent.attack())
+            if self.is_alive():
+                self.add_kill(1)
+                opponent.add_death(1)
+                print(f'''
+                        {self.name} won!
+                        Kill count: {self.kills}
+                        Opponenent deaths: {opponent.deaths}
+                    ''')  
+            else:
+                opponent.add_kill(1)
+                self.add_death(1)
+                print(f'''
+                        {opponent.name} won!
+                        Kill Count: {opponent.kills}
+                        Opponent deaths: {self.deaths}
+                    ''')
 
-        while self.is_alive() and opponent.is_alive():
-            opponent_damage = self.attack()
-            self_damage = opponent.attack()
 
-            opponent.take_damage(opponent_damage)
-            self.take_damage(self_damage)
-
-        if not opponent.is_alive():
-            print(f"{self.name} won!")
-            return
-        elif not self.is_alive():
-            print(f"{opponent.name} won!")
-            return
-
-    def add_weapon(self, weapon):
-        '''Add weapon to self.abilites'''
-        self.abilities.append(weapon)
 
 
 
@@ -134,7 +153,7 @@ class Hero:
 
 
 # Testing
-if __name__ == "__main__":
+#if __name__ == "__main__":
     #my_hero = Hero("Batman", 100)
     #print(my_hero.name)
     #print(my_hero.current_health)
@@ -196,7 +215,7 @@ if __name__ == "__main__":
     #hero2.add_ability(ability4)
     #hero1.fight(hero2)
 # add_weapon
-    hero = Hero("Wonder Woman")
-    weapon = Weapon("Cat Woman", 90)
-    hero.add_weapon(weapon)
-    print(hero.attack())
+    #hero = Hero("Wonder Woman")
+    #weapon = Weapon("Lasso of Truth", 90)
+    #hero.add_weapon(weapon)
+    #print(hero.attack()
