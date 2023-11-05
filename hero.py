@@ -6,9 +6,9 @@ from weapon import Weapon
 
 class Hero:
 
-    starting_health = 100
+    #starting health is default 100, will have in function header
 
-    def __init__(self, name: str = '', starting_health = 100):
+    def __init__(self, name, starting_health = 100):
         '''Instance properties:
             abilities: List
             armors: List
@@ -72,7 +72,7 @@ class Hero:
     def take_damage(self, damage):
         '''Updates self.current_health to reflect the damage minus the defense.'''
         total_damage = damage - self.defend()
-        total_damage = max(0, total_damage) # ensures damage isnt negative
+        total_damage = max(total_damage, 0) # ensures damage isnt negative
         self.current_health -= total_damage
         return self.current_health
 
@@ -104,19 +104,11 @@ class Hero:
             if self.is_alive():
                 self.add_kill(1)
                 opponent.add_death(1)
-                print(f'''
-                        {self.name} won!
-                        Kill count: {self.kills}
-                        Opponenent deaths: {opponent.deaths}
-                    ''')  
+                print(f"{self.name} won!")
             else:
                 opponent.add_kill(1)
                 self.add_death(1)
-                print(f'''
-                        {opponent.name} won!
-                        Kill Count: {opponent.kills}
-                        Opponent deaths: {self.deaths}
-                    ''')
+                print(f"{opponent.name} won!")
 
 
 
@@ -170,8 +162,8 @@ class Hero:
     #ability_2 = Ability("dodge", 20)
     #hero = Hero("Batman", 200)
     #hero.add_ability(ability)
-   #hero.add_ability(ability_2)
-    #print(hero.abilities)
+    #hero.add_ability(ability_2)
+    #print(hero.attack())
 #attack
     #ability = Ability("excellent debugging", 50)
     #another_ability = Ability("samrty pants", 90)

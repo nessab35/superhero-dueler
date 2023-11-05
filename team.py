@@ -15,7 +15,8 @@ class Team():
 
     def remove_hero(self, name):
         '''Remove hero from heroes list.
-        If Hero isn't found return 0.'''
+        If Hero isn't found return 0.
+        '''
         foundHerro = False
         # loop through each hero in our list
         for hero in self.heroes:
@@ -33,8 +34,8 @@ class Team():
     def stats(self):
         '''Print team stats'''
         for hero in self.heroes:
-            if hero.death == 0:
-                hero.death += 1
+            if hero.deaths == 0:
+                hero.deaths += 1
             kd = hero.kills/ hero.deaths
             print(f"{hero.name} Kill/Deaths: {kd}")
 
